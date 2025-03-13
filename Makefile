@@ -1,10 +1,21 @@
-SPEC = libpdfium.spec
+SPEC := libpdfium.spec
 
-.PHONY: srpm rpm getsource
-getsource:
-	spectool -g $(SPEC)
-srpm: getsource
-	rpmbuild --define "_sourcedir $(CURDIR)" --define "_srcrpmdir $(CURDIR)" --define "dist .el9" -bs $(SPEC)
+RPMBUILD := rpmbuild
+RPMBUILD_ARGS := --define "_sourcedir $(CURDIR)" --define "_builddir $(CURDIR)" --define "_rpmdir $(CURDIR)" --define "_srcrpmdir $(CURDIR)"
 
-rpm: getsource
-	rpmbuild --define "_sourcedir $(CURDIR)" --define "_rpmdir $(CURDIR)" -bb $(SPEC)
+.PHONY: all
+all:
+
+.PHONY: srpm rpm getsource clean
+getsource: $(SPEC)
+	spectool -g $<
+	./fetch-source.sh
+
+srpm: $(SPEC) getsource
+	$(RPMBUILD) $(RPMBUILD_ARGS) -bs $<
+
+rpm: $(SPEC) getsource
+	$(RPMBUILD) $(RPMBUILD_ARGS) -bb $<
+
+clean:
+	rm *.gz

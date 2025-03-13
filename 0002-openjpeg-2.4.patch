@@ -1,0 +1,14 @@
+--- a/core/fxcodec/jpx/cjpx_decoder.cpp.orig
++++ b/core/fxcodec/jpx/cjpx_decoder.cpp
+@@ -475,9 +475,11 @@
+   }
+ 
+   // For https://crbug.com/42270564
++  /* OpenJPEG 2.5 API
+   if (!strict_mode) {
+     CHECK(opj_decoder_set_strict_mode(m_Codec.get(), false));
+   }
++  */
+ 
+   opj_image_t* pTempImage = nullptr;
+   if (!opj_read_header(m_Stream.get(), m_Codec.get(), &pTempImage)) {

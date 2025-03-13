@@ -10,6 +10,9 @@ host_toolchain="//build/toolchain/linux/passflags:default"
 is_debug = false
 pdf_is_standalone = true
 treat_warnings_as_errors = false
+is_component_build = true
+
+use_remoteexec = false
 
 # build without JavaScript engine and XFA (forms)
 pdf_enable_v8 = false
@@ -29,8 +32,8 @@ use_system_freetype = true
 pdf_bundle_freetype = false
 use_system_lcms2 = true
 use_system_libjpeg = true
-# needs openjpeg >= 2.5
-# use_system_libopenjpeg2 = true
+# needs openjpeg >= 2.5 or patch
+use_system_libopenjpeg2 = true
 use_system_libpng = true
 use_system_libtiff = true
 use_system_zlib = true

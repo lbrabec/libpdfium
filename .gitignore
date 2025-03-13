@@ -1,1 +1,9 @@
-/libpdfium-6462.tar.gz
+/abseil-cpp-*.tar.gz
+/build-*.tar.gz
+/fast_float-*.tar.gz
+/generate_shim_headers-*.tar.gz
+/gtest-*.tar.gz
+/pdfium-*.tar.gz
+/test_fonts-*.tar.gz
+/libpdfium-*/
+/.build*.log
