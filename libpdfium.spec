@@ -21,9 +21,12 @@ Summary:        Library for PDF rendering, inspection, manipulation and creation
 
 License:        Apache 2.0
 URL:            https://pdfium.googlesource.com/pdfium
+%if 0
 # without testing/resources/pixel/bug_867501.pdf, test file is flagged as malicious content.
 Source0:        pdfium-%{pdfium_build}-clean.tar.gz
-# Source0:        https://pdfium.googlesource.com/pdfium/+archive/refs/heads/chromium/%%{pdfium_build}.tar.gz#/pdfium-%%{pdfium_build}.tar.gz
+%else
+Source0:        https://pdfium.googlesource.com/pdfium/+archive/refs/heads/chromium/%{pdfium_build}.tar.gz#/pdfium-%{pdfium_build}.tar.gz
+%endif
 Source1:        https://chromium.googlesource.com/chromium/src/build.git/+archive/%{build_revision}.tar.gz#/build-%{build_revision}.tar.gz
 Source2:        https://chromium.googlesource.com/chromium/src/third_party/abseil-cpp/+archive/%{abseil_revision}.tar.gz#/abseil-cpp-%{abseil_revision}.tar.gz
 Source3:        https://chromium.googlesource.com/external/github.com/fastfloat/fast_float.git/+archive/%{fast_float_revision}.tar.gz#/fast_float-%{fast_float_revision}.tar.gz
