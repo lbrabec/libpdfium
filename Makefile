@@ -1,20 +1,22 @@
-SPEC := libpdfium.spec
+# make srpm
+spec := libpdfium.spec
+outdir := $(CURDIR)
 
 RPMBUILD := rpmbuild
-RPMBUILD_ARGS := --define "_sourcedir $(CURDIR)" --define "_builddir $(CURDIR)" --define "_rpmdir $(CURDIR)" --define "_srcrpmdir $(CURDIR)"
+RPMBUILD_ARGS := --define "_sourcedir $(outdir)" --define "_builddir $(outdir)" --define "_rpmdir $(outdir)" --define "_srcrpmdir $(outdir)"
 
 .PHONY: all
 all:
 
 .PHONY: srpm rpm getsource clean
-getsource: $(SPEC)
+getsource: $(spec)
 	spectool -g $<
 	./fetch-source.sh
 
-srpm: $(SPEC) getsource
+srpm: $(spec) getsource
 	$(RPMBUILD) $(RPMBUILD_ARGS) -bs $<
 
-rpm: $(SPEC) getsource
+rpm: $(spec) getsource
 	$(RPMBUILD) $(RPMBUILD_ARGS) -bb $<
 
 clean:
