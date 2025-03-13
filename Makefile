@@ -3,7 +3,7 @@ spec := libpdfium.spec
 outdir := $(CURDIR)
 
 RPMBUILD := rpmbuild
-RPMBUILD_ARGS := --define "_sourcedir $(outdir)" --define "_builddir $(outdir)" --define "_rpmdir $(outdir)" --define "_srcrpmdir $(outdir)"
+RPMBUILD_ARGS := --define "_sourcedir $(CURDIR)" --define "_builddir $(CURDIR)" --define "_rpmdir $(outdir)" --define "_srcrpmdir $(outdir)"
 
 .PHONY: all
 all:
