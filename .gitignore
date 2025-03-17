@@ -5,5 +5,5 @@
 /gtest-*.tar.gz
 /pdfium-*.tar.gz
 /test_fonts-*.tar.gz
-/libpdfium-*/
 /.build*.log
+/out

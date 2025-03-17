@@ -114,8 +114,11 @@ sed -i 's/component("absl")/static_library("absl")/' third_party/abseil-cpp/BUIL
 # Empty gclient config
 touch build/config/gclient_args.gni
 
-# Don't build test fonts, the fonts are required from embedded tests.
+# Don't build test fonts, the fonts are required for embedded tests.
 sed -i '/third_party\/test_fonts/d' testing/BUILD.gn
+
+# Workaround for 'Undefined identifier'
+sed -i 's/use_remoteexec/false/' build/config/linux/pkg_config.gni
 
 # Custom flavor of GCC toolchain that passes CFLAGS, CXXFLAGS, etc.
 mkdir -p build/toolchain/linux/passflags
