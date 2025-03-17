@@ -14,6 +14,7 @@ $(outdir):
 
 .PHONY: srpm rpm getsource clean
 getsource: $(spec) $(outdir)
+	command -v spectool >/dev/null || dnf install -y /usr/bin/spectool
 	spectool -C $(specdir) -g $<
 	cd $(specdir) && ./fetch-source.sh
 
