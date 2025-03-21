@@ -63,8 +63,8 @@ BuildRequires:  pkgconfig(zlib)
 
 # https://sourceforge.net/projects/agg/ 2.3 + security patches
 Provides:       bundled(agg) = 2.3
-Provides:       bundled(abseil-cpp)
-Provides:       bundled(fast_float)
+Provides:       bundled(abseil-cpp) = %{abseil_revision}
+Provides:       bundled(fast_float) = %{fast_float_revision}
 Provides:       %{name}(chromium-tag) = %{chromium_tag}
 
 
