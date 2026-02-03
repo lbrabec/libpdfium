@@ -1,17 +1,17 @@
 
 # https://pdfium.googlesource.com/pdfium branch
-%global pdfium_build 7049
+%global pdfium_build 7616
 
-# Tag from git ls-remote --sort -version:refname --tags https://chromium.googlesource.com/chromium/src '*.*.7049.0'
-# Dependencies from https://pdfium.googlesource.com/pdfium/+/refs/heads/chromium/7049/DEPS
+# Tag from git ls-remote --sort -version:refname --tags https://chromium.googlesource.com/chromium/src '*.*.7616.0'
+# Dependencies from https://pdfium.googlesource.com/pdfium/+/refs/heads/chromium/7616/DEPS
 # PDFium wants specific commits of abseil-cpp, fast_float, and Chromium build tools.
 # gtest and test_fonts are testing-only dependencies.
-%global build_revision 3dd73ffc3708962da298795d99f35fc06ed0defc
-%global abseil_revision 221ee3ed3b032d5a82736613440664f9fbe4d3db
+%global build_revision 2fd7c745ebf1946563ad0e944b2c06866ce23fc0
+%global abseil_revision 3684ae205ad54de145a5c397e41c266ca958632c
 %global fast_float_revision cb1d42aaa1e14b09e1452cfdef373d051b8c02a4
-%global gtest_revision e235eb34c6c4fed790ccdad4b16394301360dcd4
+%global gtest_revision 4fe3307fb2d9f86d19777c7eb0e4809e9694dde7
 %global test_fonts_revision 7f51783942943e965cd56facf786544ccfc07713
-%global chromium_tag 135.0.7049.0
+%global chromium_tag 145.0.7616.0
 
 
 Name:           libpdfium
@@ -117,6 +117,9 @@ sed -i '/third_party\/test_fonts/d' testing/BUILD.gn
 # Workaround for 'Undefined identifier'
 sed -i 's/use_remoteexec/false/' build/config/linux/pkg_config.gni
 
+# PDFium 7560+ removed build_with_chromium from build_overrides/build.gni
+sed -i '1i build_with_chromium = false' build_overrides/build.gni
+
 # Custom flavor of GCC toolchain that passes CFLAGS, CXXFLAGS, etc.
 mkdir -p build/toolchain/linux/passflags
 cp %{SOURCE11} build/toolchain/linux/passflags/BUILD.gn
@@ -162,8 +165,11 @@ EOF
 
 %check
 %if 0%{?rhel} == 9
-# RHEL 9: FlateModule.Encode fails because older zlib generates different result.
-GTEST_FILTER="*-FlateModule.Encode"
+# * RHEL 9: FlateModule.Encode fails because older zlib generates different result.
+# * RetainPtr.SetContains: test expectations changed between 7049 and 7616.
+#   7049 expected retain=4/release=2, 7616 expects retain=2/release=0.
+#   our libstdc++ produces the old values; upstream uses libc++ with unreleased commits.
+GTEST_FILTER="*-FlateModule.Encode:RetainPtr.SetContains"
 %else
 # run all tests
 GTEST_FILTER="*"
@@ -195,6 +201,9 @@ cp libpdfium.pc %{buildroot}%{_libdir}/pkgconfig
 
 
 %changelog
+* Tue Feb 03 2026 Lukas Brabec <lbrabec@redhat.com> - 7616-1
+- Update to PDFium 7616 for pypdfium2 5.3.0
+
 * Thu Mar 13 2025 Christian Heimes <cheimes@redhat.com> - 7049-1
 - Update to PDFium 7049
 - Rework build system
